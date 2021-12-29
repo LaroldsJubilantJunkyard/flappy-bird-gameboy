@@ -1,0 +1,9 @@
+.vscode 
+/bin 
+/dist 
+
+*.asm
+*.lst
+*.noi
+*.o
+*.sym
