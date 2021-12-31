@@ -28,19 +28,6 @@ UINT8 distance=0;
 // Is the bird alive (1) or dead (0)
 UINT8 alive=0;
 
-
-void ScrollTheBackgroundAndApplyVelocity(){
-    backgroundScrollCounter++;
-    if(backgroundScrollCounter>=7){
-        scroll_bkg(1,0);
-        backgroundScrollCounter=0;
-    }
-    if(birdVelocityY<21){
-        birdVelocityY++;
-        
-    }
-}
-
 UINT8 ScrollSpritesForPipes(UINT8 speed){
     
     UINT8 numberOfInUseSprites=2;

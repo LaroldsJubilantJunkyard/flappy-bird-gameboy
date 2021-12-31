@@ -143,7 +143,7 @@ UINT8 CoreGameLoopUpdate(){
     // Set us as NOT inbetween tiles by default
     betweenTwoPipes=0;
     
-    UINT8 numberOfInUseSprites = ScrollInUsePipes(1);    
+    UINT8 numberOfInUseSprites = ScrollSpritesForPipes(1);    
 
     // Wait until a random amount of distance as passed
     if(distance!=0)distance--;

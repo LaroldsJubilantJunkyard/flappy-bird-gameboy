@@ -6,10 +6,28 @@
 #include "States/GameplayEnd.h"
 
 
+
+void ScrollTheBackgroundAndApplyGravity(){
+    
+    backgroundScrollCounter++;
+
+    // We only scroll (by one) every 7 frames, so it scrolls slower than pipes move
+    if(backgroundScrollCounter>=7){
+        scroll_bkg(1,0);
+        backgroundScrollCounter=0;
+    }
+
+    // Increase velocity, but limit to avoid high falling speeds
+    if(birdVelocityY<21){
+        birdVelocityY++;
+        
+    }
+}
+
 void main(void){
 
     GameFirstLoad();
-
+    
     UINT8 currentGameState=GAMEFIRSTLOAD;
     UINT8 nextGameState=GAMEPLAYSTART;
 
@@ -19,7 +37,7 @@ void main(void){
         joypadPrevious=joypadCurrent;
         joypadCurrent=joypad();
 
-        ScrollTheBackgroundAndApplyVelocity();
+        ScrollTheBackgroundAndApplyGravity();
 
         // If we are changing game state
         if(nextGameState!=currentGameState){
@@ -42,5 +60,6 @@ void main(void){
         // Wait until the vertical blank phase has completed
         wait_vbl_done();
     }
+    
 
 }
