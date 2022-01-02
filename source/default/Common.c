@@ -1,12 +1,10 @@
 #include <gb/gb.h>
 
-
-
 // A counter for scrolling the background
 // We'll move the background every time this reaches 7, so it's really slow
 UINT8 backgroundScrollCounter=0;
 
-// Two var
+// Used for keeping track  of the current and previous states of the gameboy joypad
 UINT8 joypadCurrent;
 UINT8 joypadPrevious;
 

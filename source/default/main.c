@@ -5,8 +5,6 @@
 #include "States/CoreGameLoop.h"
 #include "States/GameplayEnd.h"
 
-
-
 void ScrollTheBackgroundAndApplyGravity(){
     
     backgroundScrollCounter++;
