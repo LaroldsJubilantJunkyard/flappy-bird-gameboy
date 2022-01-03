@@ -8,6 +8,7 @@ The final product of the tutorial will not be a 1-for-1 mirror of the original f
 The bird will not rotate when flying – The gameboy hardware does not support rotation.
 - High Scores, Medals
 - In-game advertisements
+
 What IS included:
 
 - Score Counter
