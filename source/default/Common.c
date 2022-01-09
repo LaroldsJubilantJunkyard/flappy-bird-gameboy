@@ -72,7 +72,6 @@ void UpdateScoreTextAt(UINT8 x, UINT8 y,UINT16 showscore,UINT8 useWindow){
 
     unsigned char scorePlane1[] = {0x03,0x03,0x03};
     unsigned char scoreText[] = {0x77,0x77,0x77};
-    set_bkg_tiles(x,y,3,1,scorePlane1);
 
     scoreText[0]=(showscore/100)%10+FlappyBirdBackground_TILE_COUNT;
     scoreText[1]=(showscore/10)%10+FlappyBirdBackground_TILE_COUNT;
