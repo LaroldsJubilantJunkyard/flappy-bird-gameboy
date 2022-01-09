@@ -9,10 +9,20 @@ void ScrollTheBackgroundAndApplyGravity(){
     
     backgroundScrollCounter++;
 
+    floorBackgroundScroll++;
+
     // We only scroll (by one) every 7 frames, so it scrolls slower than pipes move
-    if(backgroundScrollCounter>=7){
-        scroll_bkg(1,0);
+    if(backgroundScrollCounter>=10){
+        topBackgroundScroll++;
+
         backgroundScrollCounter=0;
+    }
+    if(backgroundScrollCounter%5==0){
+        midBackgroundScroll++;
+    }
+
+    if(backgroundScrollCounter%2==0){
+        lowBackgroundScroll++;
     }
 
     // Increase velocity, but limit to avoid high falling speeds

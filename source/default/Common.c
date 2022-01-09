@@ -1,8 +1,9 @@
 #include <gb/gb.h>
+#include "Graphics/FlappyBirdBackground.h"
 
 // A counter for scrolling the background
 // We'll move the background every time this reaches 7, so it's really slow
-UINT8 backgroundScrollCounter=0;
+UINT8 backgroundScrollCounter=0,topBackgroundScroll,midBackgroundScroll,lowBackgroundScroll,highScore=0,floorBackgroundScroll=0;
 
 // Used for keeping track  of the current and previous states of the gameboy joypad
 UINT8 joypadCurrent;
@@ -63,4 +64,24 @@ UINT8 ScrollSpritesForPipes(UINT8 speed){
     }
 
     return numberOfInUseSprites;
+}
+
+
+
+void UpdateScoreTextAt(UINT8 x, UINT8 y,UINT16 showscore,UINT8 useWindow){
+
+    unsigned char scorePlane1[] = {0x03,0x03,0x03};
+    unsigned char scoreText[] = {0x77,0x77,0x77};
+
+    scoreText[0]=(showscore/100)%10+FlappyBirdBackground_TILE_COUNT;
+    scoreText[1]=(showscore/10)%10+FlappyBirdBackground_TILE_COUNT;
+    scoreText[2]=showscore%10+FlappyBirdBackground_TILE_COUNT;
+
+    VBK_REG = 1;
+    if(useWindow)set_win_tiles(x,y,3,1,scorePlane1);
+    else set_bkg_tiles(x,y,3,1,scorePlane1);
+
+    VBK_REG = 0;
+    if(useWindow)set_win_tiles(x,y,3,1,scoreText);
+    else set_bkg_tiles(x,y,3,1,scoreText);
 }

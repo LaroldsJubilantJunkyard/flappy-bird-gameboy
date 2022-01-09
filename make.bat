@@ -19,6 +19,12 @@ SETLOCAL ENABLEDELAYEDEXPANSION
 
 SET "COMPILE_OBJECT_FILES="
 
+::%GBDK_HOME%/bin/png2Asset.exe graphics/FlappyBirdTitle.png -c source/default/Graphics/FlappyBirdTitle.c -map -use_map_attributes 
+::%GBDK_HOME%/bin/png2Asset.exe graphics/FlappyBirdBackground.png -c source/default/Graphics/FlappyBirdBackground.c -map -use_map_attributes
+::%GBDK_HOME%/bin/png2Asset.exe graphics/FlappyBirdMedals.png -c source/default/Graphics/FlappyBirdMedals.c -sw 32 -sh 32 -spr8x16 
+::%GBDK_HOME%/bin/png2Asset.exe graphics/FlappyBirdEnd.png -c source/default/Graphics/FlappyBirdEnd.c -map -use_map_attributes
+
+
 :: loop for all files in the default source folder
 FOR /R "source/default/" %%X IN (*.c) DO (
     echo Compiling %%~nX ...
@@ -26,6 +32,7 @@ FOR /R "source/default/" %%X IN (*.c) DO (
     SET "COMPILE_OBJECT_FILES=bin/%%~nX.o !COMPILE_OBJECT_FILES!"
 
 )
+
 
 :: Compile a .gb file from the compiled .o files
 %LCC_COMPILE_BASE% -Wm-yC -Wl-yt3 -o dist/FlappyBird.gb !COMPILE_OBJECT_FILES!

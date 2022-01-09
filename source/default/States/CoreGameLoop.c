@@ -1,22 +1,12 @@
 #include <gb/gb.h>
 #include "Common.h"
 #include "Utilities.h"
+#include "Graphics/FlappyBirdBackground.h"
 
 
 void UpdateScoreText(){
-
-    unsigned char scorePlane1[] = {0x03,0x03,0x03};
-    unsigned char scoreText[] = {0x77,0x77,0x77};
-
-    scoreText[0]=(score/100)%10+0x77;
-    scoreText[1]=(score/10)%10+0x77;
-    scoreText[2]=score%10+0x77;
-
-    VBK_REG = 1;
-    set_win_tiles(8,1,3,1,scorePlane1);
-
-    VBK_REG = 0;
-    set_win_tiles(8,1,3,1,scoreText);
+    
+    UpdateScoreTextAt(8,16,score,0);
 }
 
 void SpawnPipes(){
@@ -41,7 +31,7 @@ void SpawnPipes(){
         if(spr==0)return;
 
         // Set the sprite's tile, it's color palette, and it's position
-        set_sprite_tile(spr,j==(top-1)?16:10);
+        set_sprite_tile(spr,j==(top-1)?28:22);
         set_sprite_prop(spr,1);
         move_sprite(spr, 168,j*16+16-rdrop1);
         
@@ -54,7 +44,7 @@ void SpawnPipes(){
         if(spr==0)return;
 
         // Set the sprite's tile, it's color palette, and it's position
-        set_sprite_tile(spr,j==(top-1)?20:12);
+        set_sprite_tile(spr,j==(top-1)?32:24);
         set_sprite_prop(spr,1);
         move_sprite(spr, 176,j*16+16-rdrop1);
 
@@ -72,7 +62,7 @@ void SpawnPipes(){
         if(spr==0)return;
 
         // Set the sprite's tile, it's color palette, and it's position
-        set_sprite_tile(spr,j==(top+space)?18:10);
+        set_sprite_tile(spr,j==(top+space)?30:22);
         set_sprite_prop(spr,1);
         move_sprite(spr, 168,j*16+16+rdrop2);
 
@@ -84,7 +74,7 @@ void SpawnPipes(){
         if(spr==0)return;
 
         // Set the sprite's tile, it's color palette, and it's position
-        set_sprite_tile(spr,j==(top+space)?14:12);
+        set_sprite_tile(spr,j==(top+space)?26:24);
         set_sprite_prop(spr,1);
         move_sprite(spr, 176,j*16+16+rdrop2);
 
@@ -133,6 +123,15 @@ UINT8 CoreGameLoopUpdate(){
     if(birdY>106){
         alive=0;
     }
+
+    UINT8 tile=2;
+
+    if(birdVelocityY>10)tile=14;
+    if(birdVelocityY>18)tile=18;
+    if(birdVelocityY<-5)tile=6;
+
+    set_sprite_tile(0,tile);
+    set_sprite_tile(1,tile+2);
     
     move_sprite(0,birdX+8,birdY+16);
     move_sprite(1,birdX+8+8,birdY+16);
@@ -169,6 +168,7 @@ UINT8 CoreGameLoopUpdate(){
         NR24_REG=0x86;
 
         score++;
+        if(score>highScore)highScore=score;
         
         UpdateScoreText();
     }

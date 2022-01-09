@@ -8,9 +8,9 @@
   Form                 : All tiles as one unit.
   Format               : Gameboy 4 color.
   Compression          : None.
-  Counter              : None.
-  Tile size            : 8 x 8
-  Tiles                : 0 to 23
+  Counter              : 8x8-count as Constant.
+  Tile size            : 8 x 16
+  Tiles                : 0 to 17
 
   Palette colors       : Included.
   SGB Palette          : None.
@@ -22,6 +22,8 @@
 
 */
 
+#ifndef __BirdAndPipes_h_INCLUDE
+#define __BirdAndPipes_h_INCLUDE
 
 /* Bank of tiles. */
 #define BirdAndPipesBank 0
@@ -117,13 +119,10 @@
 #define BirdAndPipesCGB15 1
 #define BirdAndPipesCGB16 1
 #define BirdAndPipesCGB17 1
-#define BirdAndPipesCGB18 1
-#define BirdAndPipesCGB19 1
-#define BirdAndPipesCGB20 1
-#define BirdAndPipesCGB21 1
-#define BirdAndPipesCGB22 0
-#define BirdAndPipesCGB23 0
 /* Start of tile array. */
-extern unsigned char BirdAndPipes[];
+extern const unsigned char BirdAndPipes[];
+#define BirdAndPipesLen 36
+
+#endif
 
 /* End of BIRDANDPIPES.H */
