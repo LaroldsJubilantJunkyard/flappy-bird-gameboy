@@ -19,6 +19,9 @@ void HandleBackgroundScrolling(){
         // Move everything below on the background (until our next interrupt at 63) back to the starting position
         move_bkg(0,0);
 
+        // Re-show sprites
+        SHOW_SPRITES;
+
     // if the gameboy is drawing line 63
     }else if(LYC_REG==63){
 
@@ -54,6 +57,9 @@ void HandleBackgroundScrolling(){
 
         // Move everything below on the background (until our next interrupt at 125) according to this variable
         move_bkg(floorBackgroundScroll,0);
+
+        // Prevent pipes from overlapping
+        HIDE_SPRITES;
 
     // if the gameboy is drawing line 125
     }else if(LYC_REG==125){
