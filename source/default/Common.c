@@ -2,8 +2,12 @@
 #include "Graphics/FlappyBirdBackground.h"
 
 // A counter for scrolling the background
-// We'll move the background every time this reaches 7, so it's really slow
-UINT8 backgroundScrollCounter=0,topBackgroundScroll,midBackgroundScroll,lowBackgroundScroll,highScore=0,floorBackgroundScroll=0;
+// We'll move different parts of the background at different rates
+// Top background = clouds - scroll 1px every 10 frames
+// mid background = city - scroll 1px every 5 frames
+// low background = bushes - scroll 1px every 2 frames
+// floor background = ground - scroll 1px every frame
+UINT8 backgroundScrollCounter=0,topBackgroundScroll=0,midBackgroundScroll=0,lowBackgroundScroll=0,floorBackgroundScroll=0;
 
 // Used for keeping track  of the current and previous states of the gameboy joypad
 UINT8 joypadCurrent;
@@ -11,7 +15,7 @@ UINT8 joypadPrevious;
 
 INT16 birdY=80;
 UINT8 birdX=24;
-UINT8 score=0;
+UINT8 score=0,highScore=0;
 
 // Are we currently between two pipes (one above, and one below)
 // Later: Whenever this value changes from 1 to 0, we will increase score 
@@ -26,6 +30,37 @@ UINT8 distance=0;
 
 // Is the bird alive (1) or dead (0)
 UINT8 alive=0;
+
+// Move the bird vertically based on birdVelocityY
+// Set the bird as not alive if too low
+// Choose the proper sprite for our bird
+// Gameboy doesn't support rotation of sprites
+// Thus we have extra sprites for different rotation states
+void MoveAndUpdateFlappyBird(){    
+
+    // our bird's default state is tile 2
+    UINT8 tile=2;
+
+    // Apply velocity
+    birdY+=birdVelocityY/5;
+
+    // Avoid going TOO low
+    if(birdY>106){
+        alive=0;
+    }
+
+    // use a different tile based on our y velocity
+    if(birdVelocityY>10)tile=14;
+    if(birdVelocityY>18)tile=18;
+    if(birdVelocityY<-5)tile=6;
+
+    // Set the proper tile for our bird
+    set_sprite_tile(0,tile);
+    set_sprite_tile(1,tile+2);
+    
+    move_sprite(0,birdX+8,birdY+16);
+    move_sprite(1,birdX+8+8,birdY+16);
+}
 
 UINT8 ScrollSpritesForPipes(UINT8 speed){
     
@@ -68,20 +103,19 @@ UINT8 ScrollSpritesForPipes(UINT8 speed){
 
 
 
-void UpdateScoreTextAt(UINT8 x, UINT8 y,UINT16 showscore,UINT8 useWindow){
+void UpdateScoreTextAt(UINT8 x, UINT8 y,UINT16 scoreToDisplay){
 
     unsigned char scorePlane1[] = {0x03,0x03,0x03};
     unsigned char scoreText[] = {0x77,0x77,0x77};
 
-    scoreText[0]=(showscore/100)%10+FlappyBirdBackground_TILE_COUNT;
-    scoreText[1]=(showscore/10)%10+FlappyBirdBackground_TILE_COUNT;
-    scoreText[2]=showscore%10+FlappyBirdBackground_TILE_COUNT;
+    // The score tiles start immediately after the background tiles
+    scoreText[0]=(scoreToDisplay/100)%10+FlappyBirdBackground_TILE_COUNT;
+    scoreText[1]=(scoreToDisplay/10)%10+FlappyBirdBackground_TILE_COUNT;
+    scoreText[2]=scoreToDisplay%10+FlappyBirdBackground_TILE_COUNT;
 
     VBK_REG = 1;
-    if(useWindow)set_win_tiles(x,y,3,1,scorePlane1);
-    else set_bkg_tiles(x,y,3,1,scorePlane1);
+    set_bkg_tiles(x,y,3,1,scorePlane1);
 
     VBK_REG = 0;
-    if(useWindow)set_win_tiles(x,y,3,1,scoreText);
-    else set_bkg_tiles(x,y,3,1,scoreText);
+    set_bkg_tiles(x,y,3,1,scoreText);
 }

@@ -9,21 +9,26 @@ void ScrollTheBackgroundAndApplyGravity(){
     
     backgroundScrollCounter++;
 
-    floorBackgroundScroll++;
-
-    // We only scroll (by one) every 7 frames, so it scrolls slower than pipes move
+    // We only scroll the background clouds (by one) every 10frames, so it scrolls slower than pipes move
     if(backgroundScrollCounter>=10){
         topBackgroundScroll++;
 
         backgroundScrollCounter=0;
     }
+
+    // We only scroll the city buildings every 5 frames
     if(backgroundScrollCounter%5==0){
         midBackgroundScroll++;
     }
 
+    // We only scroll the background bushes every 2 frames
     if(backgroundScrollCounter%2==0){
         lowBackgroundScroll++;
     }
+
+    // The scroll of the ground floor
+    // We scroll this every frame
+    floorBackgroundScroll++;
 
     // Increase velocity, but limit to avoid high falling speeds
     if(birdVelocityY<21){

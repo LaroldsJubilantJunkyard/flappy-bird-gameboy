@@ -7,12 +7,20 @@
 #include "Graphics/FlappyBirdBackground.h"
 #include "Graphics/FlappyBirdMedals.h"
 
-
-UINT8 created=0;
-
+// This function will cover showing our high score board.
+// Here's everything it will do:
+// - Cover the score on the bottom of the background
+// - Show the high score board on the background
+// - Score the score and high score
+// - Conditionally show the medal earned.
 void ShowGameplayEndBoard(){
 
+    ////////////////////////////////////////////////////////
+    // Cover up the score at the bottom of the background //
+    ////////////////////////////////////////////////////////
+
     unsigned char coverScoreTiles[3]={0,0,0};
+
     VBK_REG = 1;   
     get_bkg_tiles(0,17,3,1,coverScoreTiles);
     set_bkg_tiles(8,16,3,1,coverScoreTiles);
@@ -20,12 +28,17 @@ void ShowGameplayEndBoard(){
     get_bkg_tiles(0,17,3,1,coverScoreTiles);
     set_bkg_tiles(8,16,3,1,coverScoreTiles);
 
-    // Show logo
+    ///////////////////////////////
+    // Show our high score board //
+    ///////////////////////////////
 
     unsigned char FlappyBirdEnd_map_offset2[98];
     unsigned char FlappyBirdEnd_map_offset[98];
 
-
+    // Our gameplay end board expects to have it's tiles & palettes at the start of VRAM
+    // Because this is not the case, we need to use 2 helper arrays to offset these values
+    // The color palettes should start at 5
+    // The tiles should be after the background & scores tiles.
     for(UINT8 i=0;i<98;i++){
         FlappyBirdEnd_map_offset2[i]=FlappyBirdEnd_map_attributes[i]+5;
         FlappyBirdEnd_map_offset[i]=FlappyBirdEnd_map[i]+FlappyBirdBackground_TILE_COUNT+ScoreTilesLen;
@@ -39,8 +52,16 @@ void ShowGameplayEndBoard(){
     VBK_REG = 0;     
     set_bkg_tiles(3,1,14,7,FlappyBirdEnd_map_offset); 
 
-    UpdateScoreTextAt(13,3,score,0);
-    UpdateScoreTextAt(13,6,highScore,0);
+    /////////////////////////////////////////////
+    // Draw our scores on the high score board //
+    /////////////////////////////////////////////
+
+    UpdateScoreTextAt(13,3,score);
+    UpdateScoreTextAt(13,6,highScore);
+
+    ///////////////////////////////////////////////////
+    // Show our medal if we have more than 10 points //
+    ///////////////////////////////////////////////////
 
     if(score>10){
 
@@ -59,6 +80,8 @@ void ShowGameplayEndBoard(){
     }
 }
 
+UINT8 areShowingGameplayEndBoard=0;
+
 void GameplayEndSetup(){
 
     // Play a noise
@@ -68,7 +91,7 @@ void GameplayEndSetup(){
     NR13_REG=0x73;
     NR14_REG=0x86;
 
-    created=0;
+    areShowingGameplayEndBoard=0;
 }
 
 UINT8 GameplayEndUpdate(){
@@ -76,11 +99,14 @@ UINT8 GameplayEndUpdate(){
         
     UINT8 numberOfInUseSprites=2;
     
-    if(created==0){
+    if(areShowingGameplayEndBoard==0){
+
+        // Scroll the pipes faster when the bird is fully offscreen
         if(birdY>=176)numberOfInUseSprites=ScrollSpritesForPipes(4);
         else numberOfInUseSprites=ScrollSpritesForPipes(1);
     }
 
+    // Move our bird to the left along with our scrolling pipes
     birdX-=1;
 
     // While the player's y isn't really large
@@ -88,25 +114,12 @@ UINT8 GameplayEndUpdate(){
     // Eventually the player will physically reach below (greater than) 176 and the loop will stop
     if(birdY<176){
 
-        birdY+=birdVelocityY/5;
-
-        UINT8 tile=2;
-
-        if(birdVelocityY>10)tile=14;
-        if(birdVelocityY>18)tile=18;
-        if(birdVelocityY<-5)tile=6;
-
-        set_sprite_tile(0,tile);
-        set_sprite_tile(1,tile+2);
-
-        // Reposition the bird's sprites
-        move_sprite(0,birdX+8,birdY+16);
-        move_sprite(1,birdX+8+8,birdY+16);
+        MoveAndUpdateFlappyBird();
 
     // If the bird is far off screen, let's scroll in use sprites until none are on screen.
-    }else if(created==0 && numberOfInUseSprites==2){
+    }else if(areShowingGameplayEndBoard==0 && numberOfInUseSprites==2){
 
-        created=1;
+        areShowingGameplayEndBoard=1;
 
         ShowGameplayEndBoard();
 

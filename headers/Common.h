@@ -7,6 +7,6 @@ extern INT16 birdY;
 extern INT8 birdVelocityY;
 extern UINT8 backgroundScrollCounter,highScore,floorBackgroundScroll,joypadCurrent,joypadPrevious,birdX,score,betweenTwoPipes,distance,alive,topBackgroundScroll,midBackgroundScroll,lowBackgroundScroll;
 
-
-void UpdateScoreTextAt(UINT8 x, UINT8 y,UINT16 showscore,UINT8 useWindow);
+void MoveAndUpdateFlappyBird();
+void UpdateScoreTextAt(UINT8 x, UINT8 y,UINT16 scoreToDisplay);
 UINT8 ScrollSpritesForPipes(UINT8 speed);

@@ -4,61 +4,65 @@
 #include "Graphics/FlappyBirdBackground.h"
 #include "Graphics/BirdAndPipes.h"
 #include "Graphics/ScoreTiles.h"
-#include "Graphics/MenuSprites.h"
+#include "Graphics/TapToStartSprites.h"
 #include "Common.h"
 
 
-void HideSpritesForWindow(){
+void HandleBackgroundScrolling(){
 
-    // If the gameboy is drawing line 119 (where our ground/score starts)
+    // If the gameboy is drawing line 0 (the top of the screen)
     if(LYC_REG==0){
 
-        move_bkg(0,0);
-
-        // Hide sprites from here on
-        SHOW_SPRITES;
-
-        // The interrupt should next trigger at line 0
+        // The interrupt should next trigger at line 63
         LYC_REG=63;
 
-    // if thegameboy is drawing line 0 (the top of the screen)
+        // Move everything below on the background (until our next interrupt at 63) back to the starting position
+        move_bkg(0,0);
+
+    // if the gameboy is drawing line 63
     }else if(LYC_REG==63){
 
-        // The interrupt should next trigger at line 119
+        // The interrupt should next trigger at line 79
         LYC_REG=79;
 
+        // Move everything below on the background (until our next interrupt at 79) according to this variable
         move_bkg(topBackgroundScroll,0);
 
-    // if thegameboy is drawing line 0 (the top of the screen)
+    // if the gameboy is drawing line 79
     }else if(LYC_REG==79){
 
-        // The interrupt should next trigger at line 119
+        // The interrupt should next trigger at line 95
         LYC_REG=95;
 
+        // Move everything below on the background (until our next interrupt at 95) according to this variable
         move_bkg(midBackgroundScroll,0);
 
+    // if the gameboy is drawing line 95
     }else if(LYC_REG==95){
 
         // The interrupt should next trigger at line 119
         LYC_REG=119;
 
+        // Move everything below on the background (until our next interrupt at 119) according to this variable
         move_bkg(lowBackgroundScroll,0);
 
+    // if the gameboy is drawing line 119
     }else if(LYC_REG==119){
 
+        // The interrupt should next trigger at line 125
+        LYC_REG=125;
+
+        // Move everything below on the background (until our next interrupt at 125) according to this variable
         move_bkg(floorBackgroundScroll,0);
 
-        // Show sprites
-        HIDE_SPRITES;
+    // if the gameboy is drawing line 125
+    }else if(LYC_REG==125){
 
-        // The 0 should next trigger at line 119
-        LYC_REG=124;
-    }else if(LYC_REG==124){
-
-        move_bkg(0,0);
-
-        // The 0 should next trigger at line 119
+        // The interrupt should next trigger at line 0
         LYC_REG=0;
+
+        // Move everything below on the background (until our next interrupt at 0) back to the starting position
+        move_bkg(0,0);
     }
 
 }
@@ -76,13 +80,13 @@ void GameFirstLoad(){
     SHOW_SPRITES;
     SPRITES_8x16;
 
-    // We're gonna use interrupts to hide sprites where the window shows
-    // Set the LYC register at 119, where we will start hiding sprites
-    // From there we will wait until LYC_REG=0 (top of screen) to show sprites
+    // We're gonna use interrupts to achieve parallax scrolling
+    // Set the LYC register at 0, where we will start the scrolling logic
+    // From there we will move diferent chunks of the background different amounts
     STAT_REG|=0x40; //enable LYC=LY interrupt
     LYC_REG=0;
     disable_interrupts();
-    add_LCD(HideSpritesForWindow);
+    add_LCD(HandleBackgroundScrolling);
     set_interrupts(LCD_IFLAG|VBL_IFLAG);
     enable_interrupts();
 
@@ -103,16 +107,8 @@ void GameFirstLoad(){
     /////////////////////////
 
     VBK_REG = 1;    
-    set_bkg_tiles(0,0,20,18,FlappyBirdBackground_map_attributes);  
-    set_bkg_tiles(20,0,20,18,FlappyBirdBackground_map_attributes);   
+    set_bkg_tiles(0,0,32,18,FlappyBirdBackground_map_attributes);    
     VBK_REG = 0;     
-    set_bkg_tiles(0,0,20,18,FlappyBirdBackground_map); 
-    set_bkg_tiles(20,0,20,18,FlappyBirdBackground_map); 
-    
-
-    topBackgroundScroll=0;
-    midBackgroundScroll=0;
-    lowBackgroundScroll=0;
-    floorBackgroundScroll=0;
+    set_bkg_tiles(0,0,32,18,FlappyBirdBackground_map); 
 
 }

@@ -4,10 +4,6 @@
 #include "Graphics/FlappyBirdBackground.h"
 
 
-void UpdateScoreText(){
-    
-    UpdateScoreTextAt(8,16,score,0);
-}
 
 void SpawnPipes(){
         
@@ -96,7 +92,7 @@ void CoreGameLoopSetup(){
     betweenTwoPipes=0;
     birdVelocityY=-14;
 
-    UpdateScoreText();
+    UpdateScoreTextAt(8,16,score);
 
 }
 
@@ -117,24 +113,7 @@ UINT8 CoreGameLoopUpdate(){
 
     }
 
-
-    birdY+=birdVelocityY/5;
-
-    if(birdY>106){
-        alive=0;
-    }
-
-    UINT8 tile=2;
-
-    if(birdVelocityY>10)tile=14;
-    if(birdVelocityY>18)tile=18;
-    if(birdVelocityY<-5)tile=6;
-
-    set_sprite_tile(0,tile);
-    set_sprite_tile(1,tile+2);
-    
-    move_sprite(0,birdX+8,birdY+16);
-    move_sprite(1,birdX+8+8,birdY+16);
+    MoveAndUpdateFlappyBird();
 
     // Save whether or not we WERE previously between tiles
     UINT8 wasBetweenTiles=betweenTwoPipes;
@@ -170,7 +149,7 @@ UINT8 CoreGameLoopUpdate(){
         score++;
         if(score>highScore)highScore=score;
         
-        UpdateScoreText();
+        UpdateScoreTextAt(8,16,score);
     }
 
     if(alive==0)return GAMEPLAYEND;
