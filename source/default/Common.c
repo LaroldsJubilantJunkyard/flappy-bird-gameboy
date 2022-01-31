@@ -7,29 +7,29 @@
 // mid background = city - scroll 1px every 5 frames
 // low background = bushes - scroll 1px every 2 frames
 // floor background = ground - scroll 1px every frame
-UINT8 backgroundScrollCounter=0,topBackgroundScroll=0,midBackgroundScroll=0,lowBackgroundScroll=0,floorBackgroundScroll=0;
+uint8_t backgroundScrollCounter=0,topBackgroundScroll=0,midBackgroundScroll=0,lowBackgroundScroll=0,floorBackgroundScroll=0;
 
 // Used for keeping track  of the current and previous states of the gameboy joypad
-UINT8 joypadCurrent;
-UINT8 joypadPrevious;
+uint8_t joypadCurrent;
+uint8_t joypadPrevious;
 
-INT16 birdY=80;
-UINT8 birdX=24;
-UINT8 score=0,highScore=0;
+int16_t birdY=80;
+uint8_t birdX=24;
+uint8_t score=0,highScore=0;
 
 // Are we currently between two pipes (one above, and one below)
 // Later: Whenever this value changes from 1 to 0, we will increase score 
-UINT8 betweenTwoPipes=0;
+uint8_t betweenTwoPipes=0;
 
 // How fast is the bird moving up or down
 // This needs to be a signed integer so we can have negative (rising) values
-INT8 birdVelocityY=0;
+int8_t birdVelocityY=0;
 
 // Used to help spawn pipes
-UINT8 distance=0;
+uint8_t distance=0;
 
 // Is the bird alive (1) or dead (0)
-UINT8 alive=0;
+uint8_t alive=0;
 
 // Move the bird vertically based on birdVelocityY
 // Set the bird as not alive if too low
@@ -39,7 +39,7 @@ UINT8 alive=0;
 void MoveAndUpdateFlappyBird(){    
 
     // our bird's default state is tile 2
-    UINT8 tile=2;
+    uint8_t tile=2;
 
     // Apply velocity
     birdY+=birdVelocityY/5;
@@ -62,11 +62,11 @@ void MoveAndUpdateFlappyBird(){
     move_sprite(1,birdX+8+8,birdY+16);
 }
 
-UINT8 ScrollSpritesForPipes(UINT8 speed){
+uint8_t ScrollSpritesForPipes(uint8_t speed){
     
-    UINT8 numberOfInUseSprites=2;
+    uint8_t numberOfInUseSprites=2;
 
-    for(UINT8 i=2;i<40;i++){
+    for(uint8_t i=2;i<40;i++){
         
         OAM_item_t * itm = &shadow_OAM[i];
         
@@ -103,7 +103,7 @@ UINT8 ScrollSpritesForPipes(UINT8 speed){
 
 
 
-void UpdateScoreTextAt(UINT8 x, UINT8 y,UINT16 scoreToDisplay){
+void UpdateScoreTextAt(uint8_t x, uint8_t y,uint16_t scoreToDisplay){
 
     unsigned char scorePlane1[] = {0x03,0x03,0x03};
     unsigned char scoreText[] = {0x77,0x77,0x77};

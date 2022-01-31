@@ -1,6 +1,6 @@
 #include <gb/gb.h>
 
 
-UINT8 CoreGameLoopUpdate();
+uint8_t CoreGameLoopUpdate();
 void CoreGameLoopSetup();
 void SpawnPipes();

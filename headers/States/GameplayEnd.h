@@ -1,4 +1,4 @@
 #include <gb/gb.h>
 
-UINT8 GameplayEndUpdate();
+uint8_t GameplayEndUpdate();
 void GameplayEndSetup();

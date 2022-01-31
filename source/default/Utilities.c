@@ -4,15 +4,15 @@
 
 
 
-UINT8 GetAvailableSprite(){
-    for(UINT8 i=2;i<40;i++){
+uint8_t GetAvailableSprite(){
+    for(uint8_t i=2;i<40;i++){
         OAM_item_t * itm = &shadow_OAM[i];
         if(itm->x>=200)return i;
     }
     return 0;
 }
 
-UINT8 RandomNumber(UINT8 min, UINT8 max){
+uint8_t RandomNumber(uint8_t min, uint8_t max){
 
     unsigned char *ptr_div_reg = 0xFF04; 
 

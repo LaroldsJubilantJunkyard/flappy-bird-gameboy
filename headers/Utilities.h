@@ -1,3 +1,3 @@
 
-UINT8 GetAvailableSprite();
-UINT8 RandomNumber(UINT8 min, UINT8 max);
+uint8_t GetAvailableSprite();
+uint8_t RandomNumber(uint8_t min, uint8_t max);

@@ -39,7 +39,7 @@ void ShowGameplayEndBoard(){
     // Because this is not the case, we need to use 2 helper arrays to offset these values
     // The color palettes should start at 5
     // The tiles should be after the background & scores tiles.
-    for(UINT8 i=0;i<98;i++){
+    for(uint8_t i=0;i<98;i++){
         FlappyBirdEnd_map_offset2[i]=FlappyBirdEnd_map_attributes[i]+5;
         FlappyBirdEnd_map_offset[i]=FlappyBirdEnd_map[i]+FlappyBirdBackground_TILE_COUNT+ScoreTilesLen;
     }
@@ -68,7 +68,7 @@ void ShowGameplayEndBoard(){
         set_sprite_data(24,64,FlappyBirdMedals_tiles);
         set_sprite_palette(0,3,FlappyBirdMedals_palettes);
 
-        UINT8 medal = 0;
+        uint8_t medal = 0;
 
         if(score>20)medal=1;
         if(score>30)medal=2;
@@ -80,7 +80,7 @@ void ShowGameplayEndBoard(){
     }
 }
 
-UINT8 areShowingGameplayEndBoard=0;
+uint8_t areShowingGameplayEndBoard=0;
 
 void GameplayEndSetup(){
 
@@ -94,10 +94,10 @@ void GameplayEndSetup(){
     areShowingGameplayEndBoard=0;
 }
 
-UINT8 GameplayEndUpdate(){
+uint8_t GameplayEndUpdate(){
 
         
-    UINT8 numberOfInUseSprites=2;
+    uint8_t numberOfInUseSprites=2;
     
     if(areShowingGameplayEndBoard==0){
 

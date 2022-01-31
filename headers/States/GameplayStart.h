@@ -2,4 +2,4 @@
 
 
 void GameplayStartSetup();
-UINT8 GameplayStartUpdate();
+uint8_t GameplayStartUpdate();

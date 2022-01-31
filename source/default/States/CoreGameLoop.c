@@ -8,18 +8,18 @@
 void SpawnPipes(){
         
     // The size of the top pipe, how much space in-between, and the size of the bottom pipe
-    UINT8 top = RandomNumber(1,4);
-    UINT8 space = RandomNumber(3,4);
+    uint8_t top = RandomNumber(1,4);
+    uint8_t space = RandomNumber(3,4);
 
     // Randomly move the top upwards and the bottom downwards some.
-    UINT8 rdrop1 = RandomNumber(0,16);
-    UINT8 rdrop2 = RandomNumber(0,16);
+    uint8_t rdrop1 = RandomNumber(0,16);
+    uint8_t rdrop2 = RandomNumber(0,16);
     
     // The top pipe
     // Each iteration of the for loop represents one 16x16 portion of a sprite ( 2 sprites)
-    for(UINT8  j=0;j<top;j++){
+    for(uint8_t  j=0;j<top;j++){
 
-        UINT8 spr = GetAvailableSprite();
+        uint8_t spr = GetAvailableSprite();
 
 
         // We checked that we had enough sprites
@@ -48,9 +48,9 @@ void SpawnPipes(){
 
     // The bottom pipe
     // Each iteration of the for loop represents one 16x16 portion of a sprite ( 2 sprites)
-    for(UINT8 j=top+space;j<8;j++){
+    for(uint8_t j=top+space;j<8;j++){
 
-        UINT8 spr = GetAvailableSprite();
+        uint8_t spr = GetAvailableSprite();
 
 
         // We checked that we had enough sprites
@@ -96,7 +96,7 @@ void CoreGameLoopSetup(){
 
 }
 
-UINT8 CoreGameLoopUpdate(){
+uint8_t CoreGameLoopUpdate(){
 
     // If we jsut pressed the A button
     if((joypadCurrent & J_A) && !(joypadPrevious & J_A)){
@@ -116,12 +116,12 @@ UINT8 CoreGameLoopUpdate(){
     MoveAndUpdateFlappyBird();
 
     // Save whether or not we WERE previously between tiles
-    UINT8 wasBetweenTiles=betweenTwoPipes;
+    uint8_t wasBetweenTiles=betweenTwoPipes;
 
     // Set us as NOT inbetween tiles by default
     betweenTwoPipes=0;
     
-    UINT8 numberOfInUseSprites = ScrollSpritesForPipes(1);    
+    uint8_t numberOfInUseSprites = ScrollSpritesForPipes(1);    
 
     // Wait until a random amount of distance as passed
     if(distance!=0)distance--;

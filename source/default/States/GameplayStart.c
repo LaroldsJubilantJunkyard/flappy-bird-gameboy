@@ -20,7 +20,7 @@ void ClearTopSky(){
 // Once we have offset their values we can display their tiles on the background layer
 void ShowFlappyBirdLogo(){
 
-    UINT8 i;
+    uint8_t i;
 
     // Put our title into VRAM after our score and the background tiles
     set_bkg_data(FlappyBirdBackground_TILE_COUNT+ScoreTilesLen,FlappyBirdTitle_TILE_COUNT,FlappyBirdTitle_tiles);
@@ -64,7 +64,7 @@ void GameplayStartSetup(){
     // Move all non-player sprites to large number
     // So our logic later tracks them as 'unused' (x > 176)
     // Also set their palette
-    for(UINT8 i=2;i<40;i++){
+    for(uint8_t i=2;i<40;i++){
         move_sprite(i,250,0);
         set_sprite_prop(i,1);
     }
@@ -118,7 +118,7 @@ void GameplayStartSetup(){
 
 }
 
-UINT8 GameplayStartUpdate(){  
+uint8_t GameplayStartUpdate(){  
 
     // Move tothe right, while our birdX is less than 24
     // Our bird starts at 240 (off screen tothe right)
@@ -170,7 +170,7 @@ UINT8 GameplayStartUpdate(){
         // Move all non-player sprites to large number
         // So our logic later tracks them as 'unused' (x > 176)
         // Also set their palette
-        for(UINT8 i=2;i<40;i++){
+        for(uint8_t i=2;i<40;i++){
             move_sprite(i,250,0);
             set_sprite_prop(i,1);
         }

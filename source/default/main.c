@@ -41,8 +41,8 @@ void main(void){
 
     GameFirstLoad();
     
-    UINT8 currentGameState=GAMEFIRSTLOAD;
-    UINT8 nextGameState=GAMEPLAYSTART;
+    uint8_t currentGameState=GAMEFIRSTLOAD;
+    uint8_t nextGameState=GAMEPLAYSTART;
 
     while(1){
         
